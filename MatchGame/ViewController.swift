@@ -92,9 +92,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         let cardCell = cell as? CardCollectionViewCell
         
-        // Configure cell
-        cardCell?.configureCell(card: cardArray[indexPath.row])
+        // Get the card from the card array
+        let card = cardArray[indexPath.row]
         
+        // Finish configuring the cell
+        cardCell?.configureCell(card: card)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -110,7 +112,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         if cell?.card?.isFlipped == false && cell?.card?.isMatched == false {
             
             // Flip the card up
-            cell?.flipUp(speed: 0.3)
+            cell?.flipUp()
             
             // Play the flip sound
             soundPlayer.playSound(effect: .flip)
@@ -168,6 +170,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             
             // Play nomatch sound
             soundPlayer.playSound(effect: .nomatch)
+            
+            firstCard.isFlipped = false
+            secondCard.isFlipped = false
             
             // Flip them back over
             firstCardCell?.flipDown()

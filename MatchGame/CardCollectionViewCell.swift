@@ -17,7 +17,7 @@ class CardCollectionViewCell: UICollectionViewCell {
     
     var card: Card?
     
-    func configureCell (card: Card) {
+    func configureCell(card: Card) {
         
         // Keep track of the card this cell represents
         self.card = card
@@ -40,11 +40,11 @@ class CardCollectionViewCell: UICollectionViewCell {
         
         if card.isFlipped == true {
             // Show the front image view
-            self.flipUp(speed: 0)
+            flipUp(speed: 0)
         }
         else {
             // Show the back image view
-            self.flipDown(speed: 0, delay: 0)
+            flipDown(speed: 0, delay: 0)
         }
         
     }
@@ -61,6 +61,9 @@ class CardCollectionViewCell: UICollectionViewCell {
     
     func flipDown(speed: TimeInterval = 0.3, delay: TimeInterval = 0.5) {
         
+        // Set the status of the card
+        card?.isFlipped = false
+        
         // Set a time delay for flip down animation
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delay) {
             
@@ -68,9 +71,6 @@ class CardCollectionViewCell: UICollectionViewCell {
             UIView.transition(from: self.frontImageView, to: self.backImageView, duration: speed, options: [.transitionFlipFromRight, .showHideTransitionViews], completion: nil)
 
         }
-        
-        // Set the status of the card
-        self.card?.isFlipped = false
     }
     
     func remove() {
@@ -78,9 +78,10 @@ class CardCollectionViewCell: UICollectionViewCell {
         // Make the image views invisible
         backImageView.alpha = 0
         
-        UIView.animate(withDuration: 0.3, delay: 0.5, options: .curveEaseOut) {
+        UIView.animate(withDuration: 0.3, delay: 0.5, options: .curveEaseOut, animations: {
             
             self.frontImageView.alpha = 0
-        }
+            
+        }, completion: nil)
     }
 }
